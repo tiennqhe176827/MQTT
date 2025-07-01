@@ -8,14 +8,14 @@
 #define PIN_LED D1
 
 DHTesp dht;
-//----Thay đổi thành thông tin của bạn---------------
-const char* ssid = "realme C53";    //Wifi connect
-const char* password = "11111111";  //Password
+
+const char* ssid = "realme C53";   
+const char* password = "11111111"; 
 const char* mqtt_server = "13af0e06adda4c148393286447903573.s1.eu.hivemq.cloud";
 const int mqtt_port = 8883;
-const char* mqtt_username = "tiennqhe176827";  //User
-const char* mqtt_password = "Tiennqhe176827";  //Password
-//--------------------------------------------------
+const char* mqtt_username = "tiennqhe176827";
+const char* mqtt_password = "Tiennqhe176827"; 
+
 WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
@@ -40,7 +40,7 @@ void setup_wifi() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 }
-//------------Connect to MQTT Broker-----------------------------
+
 void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
@@ -58,7 +58,7 @@ void reconnect() {
     }
   }
 }
-//-----Call back Method for Receiving MQTT massage---------
+//callback nhan tin nhan
 void callback(char* topic, byte* payload, unsigned int length) {
   String incommingMessage = "";
   for (int i = 0; i < length; i++) incommingMessage += (char)payload[i];
@@ -74,7 +74,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 
 }
-//-----Method for Publishing MQTT Messages---------
+//gui tin nhan
 void publishMessage(const char* topic, String payload, boolean retained) {
   if (client.publish(topic, payload.c_str(), true))
     Serial.println("Message published [" + String(topic) + "]: " + payload);
@@ -103,7 +103,7 @@ void loop() {
     reconnect();
   }
   client.loop();
-  //read DHT11
+
   if (millis() - timeUpdata > 5000) {
     delay(dht.getMinimumSamplingPeriod());
     float h = dht.getHumidity();
